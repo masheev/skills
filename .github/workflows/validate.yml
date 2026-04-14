@@ -1,0 +1,57 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate-frontmatter:
+    name: Validate SKILL.md frontmatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate skill frontmatter
+        run: bash scripts/validate-skills.sh
+
+  markdown-lint:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install markdownlint-cli2
+        run: npm install -g markdownlint-cli2
+
+      - name: Create markdownlint config
+        run: |
+          cat > .markdownlint-cli2.jsonc << 'MLCONFIG'
+          {
+            // Lenient config: catch broken structure, not style preferences
+            "config": {
+              "default": false,
+              // Heading structure
+              "MD001": true,
+              // Heading style consistency
+              "MD003": { "style": "atx" },
+              // No duplicate headings (same level, same content)
+              "MD024": { "siblings_only": true },
+              // No empty links
+              "MD042": true,
+              // Proper fenced code blocks (must have closing fence)
+              "MD040": false,
+              "MD031": true
+            },
+            "globs": [
+              "skills/**/*.md"
+            ]
+          }
+          MLCONFIG
+
+      - name: Run markdownlint
+        run: markdownlint-cli2
