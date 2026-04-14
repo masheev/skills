@@ -1,0 +1,35 @@
+{
+  "name": "masheev-skills",
+  "owner": {
+    "name": "Masheev",
+    "email": "dev@masheev.com"
+  },
+  "metadata": {
+    "description": "Official skills for integrating Masheev into your applications. Chat widget, webhooks, API, AI agents, and more.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "masheev-essentials",
+      "description": "Core skills for adding Masheev chat, webhooks, and API to your app",
+      "skills": [
+        "./skills/masheev-widget",
+        "./skills/masheev-webhooks",
+        "./skills/masheev-api"
+      ]
+    },
+    {
+      "name": "masheev-advanced",
+      "description": "Custom UIs, client tools, workflows, AI agents, and multi-channel integration",
+      "skills": [
+        "./skills/masheev-react-sdk",
+        "./skills/masheev-client-tools",
+        "./skills/masheev-workflows",
+        "./skills/masheev-ai-agents",
+        "./skills/masheev-mcp",
+        "./skills/masheev-channels",
+        "./skills/masheev-automations"
+      ]
+    }
+  ]
+}
