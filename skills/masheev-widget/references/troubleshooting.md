@@ -108,3 +108,34 @@ For React, use the `containerRef` from the hook:
 const { containerRef } = useMasheev({ inboxId: "...", mode: "embedded" });
 return <div ref={containerRef} style={{ height: 500 }} />;
 ```
+
+## Widget Theme Not Following the Page Toggle
+
+The widget's light/dark doesn't update when the host page's theme changes.
+
+Common causes, in order of likelihood:
+
+1. **You're relying on `colorScheme: "auto"` but your toggle sets an explicit `.light`
+   class.** `"auto"` infers the theme from the DOM. Older `@masheev/embed-sdk` only checked
+   for `.dark` and otherwise fell back to `prefers-color-scheme`, so choosing light while the
+   OS was dark left the widget dark. Fixed in newer builds (now also honors `.light` /
+   `data-theme`). **Better: drive it explicitly** — call `updateColorScheme(isDark ? "dark" :
+   "light")` from your resolved theme state (see "Color Scheme" in SKILL.md). This avoids the
+   DOM heuristic entirely.
+
+2. **The host page bundle is stale.** The parent-page SDK (`setupDarkModeSync` /
+   `updateColorScheme`) is bundled into *your* site at build time. If theme sync was added
+   after your last deploy, the deployed page won't send updates even though the widget iframe
+   handles them. Rebuild and redeploy the host page.
+
+3. **The widget iframe host is stale.** The receiving side lives in the widget app. If the
+   host page sends `updateColorScheme` (verify by posting it to the iframe manually) but the
+   widget ignores it, the iframe deployment predates the handler.
+
+Quick bisection: in the page console, post the message the SDK would send straight to the
+iframe. If the widget flips, the iframe is fine and the problem is the parent not sending:
+
+```js
+document.querySelector('iframe[title="Masheev Chat Widget"]')
+  .contentWindow.postMessage({ type: "updateColorScheme", payload: { colorScheme: "dark" } }, "*");
+```

@@ -105,7 +105,7 @@ export default function RootLayout({ children }) {
 | `inboxId` | `string` | **required** | Your inbox ID from the Masheev dashboard |
 | `mode` | `"chat-widget" \| "prompt-input" \| "embedded"` | `"chat-widget"` | Widget display mode |
 | `position` | `"left" \| "right"` | `"right"` | Launcher position (chat-widget mode only) |
-| `colorScheme` | `"light" \| "dark" \| "auto"` | `"light"` | Theme (auto follows OS preference) |
+| `colorScheme` | `"light" \| "dark" \| "auto"` | `"light"` | Theme — `"auto"` follows the parent page (`.dark`/`.light` class or `data-theme`) then OS preference |
 | `sessionMode` | `"persistent" \| "ephemeral" \| "workflow"` | `"persistent"` | Conversation persistence across page loads |
 | `user` | `UserContext` | - | Identify the logged-in user |
 | `placeholder` | `string` | - | Custom input placeholder text |
@@ -118,6 +118,71 @@ export default function RootLayout({ children }) {
 | `tools` | `ClientToolDefinition[]` | - | Client-side tools (see masheev-client-tools skill) |
 | `workflow` | `WorkflowConfig` | - | Conversational workflow (see masheev-workflows skill) |
 | `debug` | `boolean` | `false` | Log all postMessage traffic to console |
+
+## Color Scheme (light / dark)
+
+Two ways to theme the widget. Pick based on whether your app has its own theme state.
+
+### Recommended: drive it from your app (deterministic)
+
+If your app already knows its resolved theme, push that value to the widget — no DOM
+guessing, no coupling to class names. Seed `colorScheme` at init (avoids a theme flash on
+first paint) and re-push on every change with `updateColorScheme`:
+
+```tsx
+// React — one source of truth, synced on initial load AND every toggle
+const isDark = useIsDark(); // your app's resolved theme (next-themes, custom, etc.)
+const colorScheme = isDark ? "dark" : "light";
+
+const { updateColorScheme } = useMasheev({
+  inboxId: "...",
+  colorScheme, // read once — seeds the first render
+});
+
+useEffect(() => {
+  updateColorScheme(colorScheme); // keeps the live widget in sync
+}, [colorScheme, updateColorScheme]);
+```
+
+```js
+// Vanilla JS
+import { init, updateColorScheme } from "@masheev/embed-sdk/js";
+init({ inboxId: "...", colorScheme: isDark ? "dark" : "light" });
+
+document.querySelector("#dark-toggle").addEventListener("click", () => {
+  updateColorScheme(nowDark ? "dark" : "light");
+});
+```
+
+### Zero-config: `colorScheme: "auto"`
+
+For pages where you can't add sync code, `"auto"` makes the widget follow the parent page
+automatically. It resolves the scheme in priority order:
+
+1. An explicit `.dark` / `.light` class on `<html>`
+2. A `data-theme="dark" | "light"` attribute on `<html>`
+3. The OS `prefers-color-scheme` media query
+
+It observes the `<html>` `class` + `data-theme` attributes and the media query, so common
+toggles (Tailwind `.dark`, next-themes, etc.) work without extra wiring.
+
+```tsx
+const { updateColorScheme } = useMasheev({ inboxId: "...", colorScheme: "auto" });
+```
+
+| Value | Behavior |
+|-------|----------|
+| `"light"` | Force light theme (default) |
+| `"dark"` | Force dark theme |
+| `"auto"` | Follow parent page: explicit `.dark`/`.light` class or `data-theme`, else OS `prefers-color-scheme` |
+
+> **Prefer the explicit approach when you control the app.** `"auto"` has to *infer* the
+> theme from the DOM, which couples the widget to your class naming and can miss
+> non-standard toggles. If your toggle sets an explicit `.light` class while the OS is in
+> dark mode, you need `@masheev/embed-sdk` ≥ the version that resolves `.light`/`data-theme`
+> (older builds fell back to the OS query and stayed dark).
+
+The widget also sets CSS custom properties (`--masheev-primary`, `--masheev-bg`, `--masheev-text`, etc.) on the iframe's document root for advanced styling.
 
 ## User Identity (HMAC Verification)
 
