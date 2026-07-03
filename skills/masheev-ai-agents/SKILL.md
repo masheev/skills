@@ -106,8 +106,25 @@ You are [Agent Name], a support agent for [Company].
 | Tier | Source | Examples | Configured Via |
 |------|--------|----------|----------------|
 | Built-in | Platform | resolve_conversation, set_priority, assign_to_human, send_message | Dashboard (always available) |
+| Capability | Platform (gated) | `fetch_website` (Internet access) | Dashboard > Agent > Capabilities |
 | Integration | Third-party adapters | Google Calendar, Tableport, Google Reviews | Dashboard > Integrations |
 | Client | Browser-side SDK | search_products, create_order (your code) | `tools` in SDK config |
+
+## Internet Access (fetch_website)
+
+Enabling **Internet access** on an agent grants a platform-managed `fetch_website` tool that
+reads public web pages server-side (e.g. importing business details from a URL a customer
+shares). It runs on Masheev's infrastructure — **you don't need a scraper or an API key**, and
+nothing is exposed to the browser. Off by default.
+
+- **Enable:** Dashboard → Agent → Capabilities → *Internet access* (or `capabilities.internet.enabled`).
+- **Restrict (optional):** `capabilities.internet.allowlist` / `blocklist` limit which domains
+  the agent may fetch (exact domain or subdomain).
+- **Don't ship your own `fetch_website` client tool.** A client tool of the same name overrides
+  the platform one (the SDK logs a warning). Reference `fetch_website` by name in a workflow
+  step and let the platform provide it.
+- **Safety:** fetched content is treated as untrusted data (never as instructions), fetch calls
+  are capped per turn, and only public URLs are fetched (SSRF-guarded).
 
 ## Knowledge Base Integration
 
