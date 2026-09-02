@@ -139,3 +139,23 @@ iframe. If the widget flips, the iframe is fine and the problem is the parent no
 document.querySelector('iframe[title="Masheev Chat Widget"]')
   .contentWindow.postMessage({ type: "updateColorScheme", payload: { colorScheme: "dark" } }, "*");
 ```
+
+## Theme Passed in `init()` Has No Effect
+
+The theme saved on the inbox in the Masheev dashboard takes precedence over the `theme`
+object in your embed code. If the inbox has an appearance saved, that is what visitors see
+and the SDK `theme` is ignored.
+
+To change the look, either edit the inbox's appearance in the dashboard, or clear the saved
+theme there so the SDK value applies. Note this is deliberate: it keeps embed code from
+overriding what the account owner configured.
+
+## Custom Font Not Applying
+
+`theme.fontFamily` only resolves against fonts already installed on the visitor's device,
+plus the generic families (`sans-serif`, `serif`, `monospace`). The widget runs in an iframe
+that does not load web fonts, so a `@font-face` or Google Fonts family on the host page is
+not available inside it and the widget falls back to the system stack.
+
+The value is also sanitized before use — `url()`, braces and semicolons are stripped — so a
+font stack containing them will be trimmed rather than applied.

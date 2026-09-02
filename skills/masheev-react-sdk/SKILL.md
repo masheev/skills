@@ -45,25 +45,36 @@ function App() {
     updateContact,
     updateTools,
     updateWorkflow,
+    updateColorScheme, // Switch light/dark/auto after init
     setQuestions,
     setListening,
     resetConversation,
     on, off,
     containerRef,     // For embedded mode — attach to a DOM element
     isReady,
+    workflowState,    // Reactive workflow progress (null when no workflow)
   } = useMasheev({
     inboxId: "YOUR_INBOX_ID",
     mode: "chat-widget",
+    colorScheme: "auto",
+    theme: { primaryColor: "#2563eb", fontSize: "base", messageStyle: "plain" },
     user: { name: "Jane", email: "jane@example.com" },
   });
 
   return (
     <div>
       <button onClick={open} disabled={!isReady}>Open Chat</button>
+      {workflowState && <p>Step: {workflowState.currentStepId}</p>}
     </div>
   );
 }
 ```
+
+`theme` accepts `template`, `primaryColor`, `backgroundColor`, `textColor`,
+`userBubbleColor`, `userBubbleTextColor`, `fontFamily`, `fontSize` (`sm` / `base` / `lg`),
+`messageStyle` (`plain` / `bubble`), `logoUrl`, `headerTitle` and `poweredBy`. It applies
+only when the inbox has no theme saved in the dashboard — the saved theme wins. See the
+masheev-widget skill for the full table and the `fontFamily` caveat.
 
 **Singleton pattern**: Multiple `useMasheev()` calls with the same `inboxId` share a single SDK instance and iframe. The iframe is destroyed only when the last consumer unmounts.
 
@@ -192,4 +203,4 @@ const result = validateWorkflowConfig(onboardingFlow);
 if (!result.valid) console.error(result.errors);
 ```
 
-See [references/headless.md](./references/headless.md) for advanced patterns (custom message components, streaming, reconnection).
+See [references/headless.md](./references/headless.md) for advanced patterns (custom message components, streaming, reconnection, theming).

@@ -166,6 +166,38 @@ function ChatContainer({ children }: { children: React.ReactNode }) {
 }
 ```
 
+### Matching the iframe widget's token names
+
+The iframe widget sets a `--masheev-*` variable for every design decision on its document
+root. Reusing the same names in a headless UI keeps the two consistent, and lets you reuse
+a theme you already configured in the dashboard.
+
+| Variable | Role |
+|----------|------|
+| `--masheev-canvas` | Panel background |
+| `--masheev-surface` | Raised areas on the canvas |
+| `--masheev-surface-muted` | Chips, tool pills, inline code |
+| `--masheev-surface-elevated` | Composer pill, cards, jump-to-latest |
+| `--masheev-foreground` | Body text |
+| `--masheev-foreground-muted` | Meta and legal text |
+| `--masheev-border` | Borders |
+| `--masheev-border-subtle` | Hairlines and card edges |
+| `--masheev-primary` / `--masheev-primary-foreground` | Primary actions |
+| `--masheev-ai-accent` | AI accent |
+| `--masheev-focus-ring` | Focus ring colour |
+| `--masheev-danger` / `--masheev-danger-foreground` | Errors |
+| `--masheev-success` / `--masheev-success-foreground` | Success states |
+| `--masheev-user-bubble` / `--masheev-user-bubble-text` | Visitor message pill |
+| `--masheev-assistant-bubble` | AI bubble background (bubble message style only) |
+| `--masheev-bg` / `--masheev-text` | Raw configured background and text colours |
+| `--masheev-font` / `--masheev-font-size` | Resolved font stack and body size |
+| `--masheev-shadow-panel` / `--masheev-shadow-pill` / `--masheev-shadow-launcher` | Elevation |
+| `--masheev-scrollbar-thumb` | Transcript scrollbar |
+
+The widget's own transcript defaults to a plain message style: AI replies are text on the
+panel surface with no bubble, and only the visitor's messages get a pill. Follow that if
+you want a headless UI that matches the default look.
+
 ## Quick Replies Component
 
 ```tsx

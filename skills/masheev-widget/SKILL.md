@@ -5,7 +5,8 @@ description: >-
   in any web application. Covers adding the chat widget via script tag, npm
   package (@masheev/embed-sdk), React, Next.js, Vue, and vanilla JavaScript.
   Handles SSR safety ("window is not defined"), SPA route changes, user identity
-  with HMAC verification, widget positioning, theming (light/dark/auto), CSP
+  with HMAC verification, widget positioning, theming (light/dark/auto, colours, fonts, message
+  style), CSP
   headers, GDPR consent gating, embedded mode, prompt-input mode, and common
   errors. Use this skill whenever someone asks to "add Masheev", "install the
   chat widget", "embed Masheev", or mentions @masheev/embed-sdk.
@@ -106,6 +107,7 @@ export default function RootLayout({ children }) {
 | `mode` | `"chat-widget" \| "prompt-input" \| "embedded"` | `"chat-widget"` | Widget display mode |
 | `position` | `"left" \| "right"` | `"right"` | Launcher position (chat-widget mode only) |
 | `colorScheme` | `"light" \| "dark" \| "auto"` | `"light"` | Theme — `"auto"` follows the parent page (`.dark`/`.light` class or `data-theme`) then OS preference |
+| `theme` | `WidgetTheme` | - | Colours, font and message style (see [Theming](#theming)). Ignored when the inbox has a saved theme |
 | `sessionMode` | `"persistent" \| "ephemeral" \| "workflow"` | `"persistent"` | Conversation persistence across page loads |
 | `user` | `UserContext` | - | Identify the logged-in user |
 | `placeholder` | `string` | - | Custom input placeholder text |
@@ -182,7 +184,81 @@ const { updateColorScheme } = useMasheev({ inboxId: "...", colorScheme: "auto" }
 > dark mode, you need `@masheev/embed-sdk` ≥ the version that resolves `.light`/`data-theme`
 > (older builds fell back to the OS query and stayed dark).
 
-The widget also sets CSS custom properties (`--masheev-primary`, `--masheev-bg`, `--masheev-text`, etc.) on the iframe's document root for advanced styling.
+## Theming
+
+Pass a `theme` object to override the widget's appearance. Every field is optional.
+
+```typescript
+init({
+  inboxId: "YOUR_INBOX_ID",
+  colorScheme: "auto",
+  theme: {
+    template: "minimal",
+    primaryColor: "#2563eb",
+    userBubbleColor: "#2563eb",
+    fontSize: "base",
+    messageStyle: "plain",
+  },
+});
+```
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `template` | `"minimal" \| "modern" \| "corporate" \| "playful" \| "dark" \| "custom"` | `"modern"` | Preset palette; the fields below override individual values |
+| `primaryColor` | `string` | from template | Send button, focus ring, unread indicator, selected chips |
+| `backgroundColor` | `string` | from template | Panel background; surfaces and hairlines are derived from it |
+| `textColor` | `string` | from template | Body text; adjusted if it does not reach 4.5:1 on the background |
+| `userBubbleColor` | `string` | `primaryColor` | Background of the visitor's own messages |
+| `userBubbleTextColor` | `string` | derived | Text inside the visitor's messages; contrast enforced |
+| `fontFamily` | `string` | system stack | Font stack for the widget (see caveat below) |
+| `fontSize` | `"sm" \| "base" \| "lg"` | `"base"` | Body text size; every other size scales from it |
+| `messageStyle` | `"plain" \| "bubble"` | `"plain"` | `"plain"` renders AI replies as text on the panel surface; `"bubble"` keeps them in a bubble |
+| `logoUrl` | `string` | - | Header image instead of the default agent avatar |
+| `headerTitle` | `string` | agent name | Header title text |
+| `poweredBy` | `boolean` | `true` | Show the "Powered by Masheev" footer line |
+
+**Precedence.** The theme saved on the inbox in the Masheev dashboard wins. The `theme`
+passed here applies only when the inbox has no saved theme, so a customer's own appearance
+settings are never overridden by embed code. The dashboard's inbox appearance editor shows
+a live preview of these fields in light and dark.
+
+**Dark mode.** Each template has a light and a dark preset, and the widget uses the dark
+preset when the resolved scheme is dark. Colours you set explicitly are used as given in
+both schemes — they are not recoloured for dark mode. Either pick colours that work in
+both, or pin the widget with `colorScheme: "light"`.
+
+**`fontFamily` caveat.** The widget runs in an iframe that does not load web fonts. Only
+fonts already installed on the visitor's device and the generic families (`sans-serif`,
+`serif`, `monospace`) render; anything else falls back to the system stack. The value is
+sanitized, so `url()`, braces and semicolons are stripped.
+
+### CSS custom properties
+
+The widget sets these on the iframe's document root. They are useful for advanced styling
+and as a naming reference if you build your own UI with the headless SDK.
+
+| Variable | Role |
+|----------|------|
+| `--masheev-canvas` | Panel background |
+| `--masheev-surface` | Raised areas on the canvas |
+| `--masheev-surface-muted` | Chips, tool pills, inline code |
+| `--masheev-surface-elevated` | Composer pill, cards, jump-to-latest |
+| `--masheev-foreground` | Body text |
+| `--masheev-foreground-muted` | Meta and legal text |
+| `--masheev-border` | Borders |
+| `--masheev-border-subtle` | Hairlines and card edges |
+| `--masheev-primary` / `--masheev-primary-foreground` | Primary actions |
+| `--masheev-ai-accent` | AI accent |
+| `--masheev-focus-ring` | Focus ring colour |
+| `--masheev-danger` / `--masheev-danger-foreground` | Errors |
+| `--masheev-success` / `--masheev-success-foreground` | Success states |
+| `--masheev-user-bubble` / `--masheev-user-bubble-text` | Visitor message pill |
+| `--masheev-assistant-bubble` | AI bubble background (`messageStyle: "bubble"` only) |
+| `--masheev-bg` / `--masheev-text` | Raw `backgroundColor` / `textColor` |
+| `--masheev-font` / `--masheev-font-size` | Resolved font stack and body size |
+| `--masheev-shadow-panel` / `--masheev-shadow-pill` / `--masheev-shadow-launcher` | Elevation |
+| `--masheev-scrollbar-thumb` | Transcript scrollbar |
+
 
 ## User Identity (HMAC Verification)
 
@@ -254,11 +330,18 @@ init({
 
 ## Widget Modes
 
+The SDK creates and owns the widget iframe, and resizes it on open, on close, and whenever
+the widget posts a `resize` message. The host page sets no dimensions — except in
+`embedded` mode, where your container defines the available space.
+
 ### chat-widget (default)
-Floating chat bubble in bottom corner. Opens to full chat panel. Best for most sites.
+Floating launcher in the bottom corner. Opens a chat panel above the launcher; on small
+screens the panel fills the viewport. Best for most sites.
 
 ### prompt-input
-Persistent input bar (no floating bubble). Good for AI-first interfaces.
+A single input pill docked at the bottom of the page, no launcher. Focusing it reveals the
+suggested questions; sending a message opens a transcript panel above the pill while the
+pill stays as the composer. Good for AI-first interfaces.
 
 ### embedded
 Mount inside a specific DOM element. No floating UI. Full control over layout.
