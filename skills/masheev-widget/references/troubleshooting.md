@@ -159,3 +159,26 @@ not available inside it and the widget falls back to the system stack.
 
 The value is also sanitized before use — `url()`, braces and semicolons are stripped — so a
 font stack containing them will be trimmed rather than applied.
+
+## Widget Never Appears in Production (Turnstile / CSP)
+
+In production, `POST /api/widget/session` requires a Cloudflare Turnstile token and rejects a
+request without one as `403 Verification required`. The widget waits for the invisible
+challenge to resolve before creating a session, and will not send an unverified request.
+
+The challenge is served from `https://challenges.cloudflare.com`. If the host page sends a
+Content Security Policy, that origin must be allowed in both directives:
+
+```
+Content-Security-Policy: script-src https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com
+```
+
+If the challenge cannot load — blocked by CSP, blocked by a privacy extension or ad blocker,
+a missing `VITE_TURNSTILE_SITE_KEY` in the widget build, or a `TURNSTILE_SECRET_KEY` on the
+API that does not match the site key — the widget treats it as a startup failure, not a
+message failure. Visitors see nothing at all while it retries quietly in the background,
+because a broken composer is worse than no widget.
+
+To see the cause, open the page on a development host or add `debug: true` to the embed
+config (or `?masheev_debug=1` to the URL). The widget then renders a card naming the
+problem, and the same diagnosis is always written to the browser console.
