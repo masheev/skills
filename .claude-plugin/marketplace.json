@@ -10,6 +10,13 @@
   },
   "plugins": [
     {
+      "name": "masheev-integrate",
+      "description": "Inspect an existing app, plan and implement Masheev for the business, and verify the customer journey",
+      "skills": [
+        "./skills/masheev-integrate"
+      ]
+    },
+    {
       "name": "masheev-essentials",
       "description": "Core skills for adding Masheev chat, webhooks, and API to your app",
       "skills": [
