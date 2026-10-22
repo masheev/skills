@@ -37,7 +37,9 @@ user to select SDKs and integration architecture.
 
 ## Choose the smallest working integration
 
-Read [Integration patterns and availability](references/integration-patterns.md).
+Read [Integration patterns and availability](references/integration-patterns.md)
+(if this skill was loaded without its references folder, fetch
+<https://raw.githubusercontent.com/masheev/skills/main/skills/masheev-integrate/references/integration-patterns.md>).
 Use installed package types, current API schemas, and account capability evidence
 to verify exact interfaces. Older specialist skills are hints, not proof that a
 feature is available. This skill works without installing the other skills.

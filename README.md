@@ -85,7 +85,8 @@ through a draft that a human approves before anything is sent.
 | Host | Install |
 |------|---------|
 | Any agent ([skills.sh](https://skills.sh)) | `npx skills add masheev/skills --skill masheev-inbox-triage --skill masheev-reply-with-review` |
-| Claude Code | `/plugin marketplace add masheev/skills`, then `/plugin install masheev-operator@masheev-skills` (or `masheev-integrate`, `masheev-essentials`, `masheev-advanced`) |
+| Claude Code | `/plugin install masheev --marketplace masheev/skills` (operator skills plus the MCP server); developer bundles: `masheev-integrate`, `masheev-essentials`, `masheev-advanced` |
+| Codex | `codex plugin marketplace add masheev/skills`, then `codex plugin add masheev@masheev` (all skills plus the MCP server; [`plugin.json`](./plugin.json) and [`mcp.json`](./mcp.json)) |
 | OpenClaw | `openclaw plugins install clawhub:@masheev/masheev` once listed on [ClawHub](https://clawhub.ai/masheev). The plugin is [`openclaw.plugin.json`](./openclaw.plugin.json): the hosted MCP server plus the operator skills |
 | Hermes Agent | `hermes skills tap add masheev/skills`; merge [`hermes/config.yaml`](./hermes/config.yaml) into `~/.hermes/config.yaml`, then `hermes mcp login masheev` |
 

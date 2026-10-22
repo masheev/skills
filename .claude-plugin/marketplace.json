@@ -12,6 +12,8 @@
     {
       "name": "masheev-integrate",
       "description": "Inspect an existing app, plan and implement Masheev for the business, and verify the customer journey",
+      "source": "./",
+      "strict": false,
       "skills": [
         "./skills/masheev-integrate"
       ]
@@ -19,6 +21,8 @@
     {
       "name": "masheev-essentials",
       "description": "Core skills for adding Masheev chat, webhooks, and API to your app",
+      "source": "./",
+      "strict": false,
       "skills": [
         "./skills/masheev-widget",
         "./skills/masheev-webhooks",
@@ -28,6 +32,8 @@
     {
       "name": "masheev-advanced",
       "description": "Custom UIs, client tools, workflows, AI agents, and multi-channel integration",
+      "source": "./",
+      "strict": false,
       "skills": [
         "./skills/masheev-react-sdk",
         "./skills/masheev-client-tools",
@@ -39,14 +45,36 @@
       ]
     },
     {
-      "name": "masheev-operator",
+      "name": "masheev",
       "description": "Operate a Masheev workspace from an AI assistant: inbox triage, reviewed replies, agent tuning and the CLI",
+      "source": "./",
+      "strict": false,
+      "version": "0.2.0",
+      "author": {
+        "name": "DA592 LTD, trading as Masheev",
+        "email": "support@masheev.com",
+        "url": "https://masheev.com"
+      },
+      "homepage": "https://docs.masheev.com/connect/claude",
+      "license": "Apache-2.0",
+      "keywords": [
+        "customer-support",
+        "inbox",
+        "mcp",
+        "masheev"
+      ],
       "skills": [
         "./skills/masheev-inbox-triage",
         "./skills/masheev-reply-with-review",
         "./skills/masheev-agent-tuning",
         "./skills/masheev-cli"
-      ]
+      ],
+      "mcpServers": {
+        "masheev": {
+          "type": "http",
+          "url": "https://api.masheev.com/api/agents/mcp"
+        }
+      }
     }
   ]
 }
