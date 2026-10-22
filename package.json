@@ -1,0 +1,22 @@
+{
+  "name": "@masheev/masheev",
+  "version": "0.2.1",
+  "private": true,
+  "type": "module",
+  "description": "Work your Masheev customer inbox from OpenClaw: triage conversations, draft replies a human approves, tune AI agents, and script Masheev with the masheev CLI. Uses the hosted Masheev MCP server with OAuth; no bundled code.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masheev/skills.git"
+  },
+  "homepage": "https://masheev.com/agents",
+  "files": [
+    "openclaw.plugin.json",
+    "README.md",
+    "LICENSE",
+    "skills/masheev-inbox-triage",
+    "skills/masheev-reply-with-review",
+    "skills/masheev-agent-tuning",
+    "skills/masheev-cli"
+  ]
+}

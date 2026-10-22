@@ -4,6 +4,7 @@
 !openclaw.plugin.json
 !README.md
 !LICENSE
+!package.json
 !skills/
 skills/*
 !skills/masheev-inbox-triage/
@@ -12,3 +13,5 @@ skills/*
 !skills/masheev-reply-with-review/**
 !skills/masheev-agent-tuning/
 !skills/masheev-agent-tuning/**
+!skills/masheev-cli/
+!skills/masheev-cli/**
