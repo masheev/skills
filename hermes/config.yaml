@@ -1,0 +1,8 @@
+# Merge into ~/.hermes/config.yaml, then run: hermes mcp login masheev
+# Masheev supports dynamic client registration, so no client_id is needed.
+mcp_servers:
+  masheev:
+    url: "https://api.masheev.com/api/agents/mcp"
+    auth: oauth
+    timeout: 60
+    connect_timeout: 30

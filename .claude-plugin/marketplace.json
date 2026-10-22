@@ -5,7 +5,7 @@
     "email": "dev@masheev.com"
   },
   "metadata": {
-    "description": "Official skills for integrating Masheev into your applications. Chat widget, webhooks, API, AI agents, and more.",
+    "description": "Official Masheev skills: integrate Masheev into your applications, and operate a Masheev workspace from an AI assistant.",
     "version": "0.1.0"
   },
   "plugins": [
@@ -36,6 +36,16 @@
         "./skills/masheev-mcp",
         "./skills/masheev-channels",
         "./skills/masheev-automations"
+      ]
+    },
+    {
+      "name": "masheev-operator",
+      "description": "Operate a Masheev workspace from an AI assistant: inbox triage, reviewed replies, agent tuning and the CLI",
+      "skills": [
+        "./skills/masheev-inbox-triage",
+        "./skills/masheev-reply-with-review",
+        "./skills/masheev-agent-tuning",
+        "./skills/masheev-cli"
       ]
     }
   ]

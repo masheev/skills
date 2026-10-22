@@ -1,0 +1,23 @@
+{
+  "id": "masheev",
+  "name": "Masheev",
+  "description": "Work your Masheev customer inbox from OpenClaw: triage conversations, draft replies a human approves, and tune AI agents. Uses the hosted Masheev MCP server with OAuth; no bundled code.",
+  "version": "0.2.0",
+  "skills": [
+    "skills/masheev-inbox-triage",
+    "skills/masheev-reply-with-review",
+    "skills/masheev-agent-tuning"
+  ],
+  "mcpServers": {
+    "masheev": {
+      "url": "https://api.masheev.com/api/agents/mcp",
+      "transport": "streamable-http",
+      "auth": "oauth"
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

@@ -1,8 +1,12 @@
 # Masheev Skills
 
-Official [Agent Skills](https://agentskills.io) for integrating [Masheev](https://masheev.com) into your applications.
+Official [Agent Skills](https://agentskills.io) for [Masheev](https://masheev.com). This repository is the
+single source for every Masheev skill and the agent-host manifests that ship them.
 
-These skills help AI coding agents (Claude Code, Cursor, Copilot, Codex, and 40+ others) plan and implement Masheev chat, business tools, API access, and AI agents in your codebase.
+| For | Skills | What they do |
+|-----|--------|--------------|
+| Developers | [masheev-integrate](./skills/masheev-integrate/) and the [specialist skills](#skills) | Help AI coding agents (Claude Code, Cursor, Copilot, Codex, and 40+ others) implement Masheev chat, API access, and AI agents in your codebase |
+| Operators | [Operator skills](#operate-your-workspace-from-an-ai-assistant) | Let an AI assistant work a connected Masheev workspace: triage the inbox, draft replies a human approves, tune AI agents |
 
 ## Start here: integrate your business
 
@@ -63,6 +67,31 @@ npx skills add masheev/skills --skill masheev-widget --skill masheev-api
 | [masheev-channels](./skills/masheev-channels/) | WhatsApp, SMS, email, voice, and Instagram channel integration |
 | [masheev-automations](./skills/masheev-automations/) | Rules, triggers, and automation workflows |
 
+## Operate your workspace from an AI assistant
+
+These skills drive a connected Masheev workspace through the Masheev MCP server
+(`https://api.masheev.com/api/agents/mcp`, OAuth) or the `masheev` CLI. Replies always go
+through a draft that a human approves before anything is sent.
+
+| Skill | Description |
+|-------|-------------|
+| [masheev-inbox-triage](./skills/masheev-inbox-triage/) | Find conversations that need a human, then assign, tag, set status and leave notes; never messages customers |
+| [masheev-reply-with-review](./skills/masheev-reply-with-review/) | Draft a reply, show it, and send only after a human approves that exact draft |
+| [masheev-agent-tuning](./skills/masheev-agent-tuning/) | Review an AI agent against real conversations and apply approved instruction or knowledge changes |
+| [masheev-cli](./skills/masheev-cli/) | Operate Masheev from the terminal with the `masheev` CLI |
+
+## Install by host
+
+| Host | Install |
+|------|---------|
+| Any agent ([skills.sh](https://skills.sh)) | `npx skills add masheev/skills --skill masheev-inbox-triage --skill masheev-reply-with-review` |
+| Claude Code | `/plugin marketplace add masheev/skills`, then `/plugin install masheev-operator@masheev-skills` (or `masheev-integrate`, `masheev-essentials`, `masheev-advanced`) |
+| OpenClaw | `openclaw plugins install clawhub:@masheev/masheev` once listed on [ClawHub](https://clawhub.ai/masheev). The plugin is [`openclaw.plugin.json`](./openclaw.plugin.json): the hosted MCP server plus the operator skills |
+| Hermes Agent | `hermes skills tap add masheev/skills`; merge [`hermes/config.yaml`](./hermes/config.yaml) into `~/.hermes/config.yaml`, then `hermes mcp login masheev` |
+
+Operator skills need the MCP server connected in the host. Setup per host:
+https://docs.masheev.com/agents
+
 ## Links
 
 - [Masheev Documentation](https://docs.masheev.com)
@@ -76,4 +105,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on adding or improving s
 
 ## License
 
-Apache-2.0
+Apache-2.0 in this repository. ClawHub distributes every published skill under
+[MIT-0](https://spdx.org/licenses/MIT-0.html), so copies installed from ClawHub carry MIT-0.
