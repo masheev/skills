@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "description": "Integrate Masheev into your applications and work your Masheev customer inbox: triage conversations, draft replies a human approves, and tune AI agents. Connects to the hosted Masheev MCP server with OAuth.",
   "author": {
-    "name": "DA592 LTD, trading as Masheev",
+    "name": "Masheev",
     "email": "support@masheev.com",
     "url": "https://masheev.com"
   },
@@ -17,7 +17,7 @@
         "displayName": "Masheev",
         "shortDescription": "Work your customer inbox and AI agents",
         "longDescription": "Find and organise customer conversations, draft replies that are sent only after you approve them, and tune your Masheev AI agents. Sign in with OAuth and choose one workspace and its permissions on the consent screen. Billing, irreversible deletes and credentials are not available.",
-        "developerName": "DA592 LTD, trading as Masheev",
+        "developerName": "Masheev",
         "category": "Business",
         "capabilities": [
           "Read",
