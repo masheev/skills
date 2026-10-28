@@ -1,7 +1,7 @@
 {
   "name": "masheev",
   "version": "0.2.1",
-  "description": "Work your Masheev customer inbox from Grok: find and triage conversations, look up contacts, check channel health, add internal notes and tune Masheev AI agents. Connects to the hosted Masheev MCP server with OAuth. Replies to customers are drafted first and sent only after you approve them.",
+  "description": "Masheev is an AI-first unified inbox for customer communication: WhatsApp, SMS, phone calls answered by AI voice agents, email, Instagram and website live chat in one omnichannel workspace. Use these skills to add the Masheev chat widget, channels, webhooks and AI agents to your app, and use the hosted Masheev MCP server (OAuth) to triage conversations, look up contacts, check channel health and tune AI agents. Replies to customers are drafted first and sent only after you approve them.",
   "author": {
     "name": "DA592 LTD, trading as Masheev",
     "email": "support@masheev.com",
@@ -10,5 +10,21 @@
   "homepage": "https://docs.masheev.com/agents",
   "repository": "https://github.com/masheev/skills",
   "license": "Apache-2.0",
-  "keywords": ["masheev", "customer support", "inbox", "mcp"]
+  "keywords": [
+    "masheev",
+    "unified inbox",
+    "omnichannel",
+    "customer support",
+    "whatsapp",
+    "sms",
+    "voice ai",
+    "phone calls",
+    "live chat",
+    "chat widget",
+    "email",
+    "instagram",
+    "ai agents",
+    "helpdesk",
+    "mcp"
+  ]
 }
