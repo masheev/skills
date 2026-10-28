@@ -1,7 +1,7 @@
 {
   "name": "masheev",
   "version": "0.2.1",
-  "description": "Masheev is an AI-first unified inbox for customer communication: WhatsApp, SMS, phone calls answered by AI voice agents, email, Instagram and website live chat in one omnichannel workspace. Use these skills to add the Masheev chat widget, channels, webhooks and AI agents to your app, and use the hosted Masheev MCP server (OAuth) to triage conversations, look up contacts, check channel health and tune AI agents. Replies to customers are drafted first and sent only after you approve them.",
+  "description": "Masheev is the AI-first unified inbox for customer communication: WhatsApp, SMS, phone calls answered by AI voice agents, email, Instagram and website live chat in one omnichannel workspace. Build Masheev into your app with skills for the chat widget, React SDK, channels, webhooks, workflows and API. Then run the inbox from Grok through the hosted Masheev MCP server: triage conversations, look up contacts, check channel health and tune AI agents. Replies to customers are drafted first and sent only after you approve them.",
   "author": {
     "name": "DA592 LTD, trading as Masheev",
     "email": "support@masheev.com",
