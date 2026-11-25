@@ -88,7 +88,7 @@ through a draft that a human approves before anything is sent.
 | Claude Code | `/plugin install masheev --marketplace masheev/skills` (operator skills plus the MCP server); developer bundles: `masheev-integrate`, `masheev-essentials`, `masheev-advanced` |
 | Codex | `codex plugin marketplace add masheev/skills`, then `codex plugin add masheev@masheev` (all skills plus the MCP server; [`plugin.json`](./plugin.json) and [`mcp.json`](./mcp.json)) |
 | Grok Build | install `masheev` once listed in the [xAI plugin marketplace](https://github.com/xai-org/plugin-marketplace) (all skills plus the MCP server; [`.grok-plugin/plugin.json`](./.grok-plugin/plugin.json) and [`.mcp.json`](./.mcp.json)) |
-| OpenClaw | `openclaw plugins install clawhub:@masheev/masheev` once listed on [ClawHub](https://clawhub.ai/masheev). The plugin is [`openclaw.plugin.json`](./openclaw.plugin.json): the hosted MCP server plus the operator skills |
+| OpenClaw | `openclaw plugins install clawhub:@masheev/openclaw` once listed on [ClawHub](https://clawhub.ai/masheev). The plugin is [`openclaw.plugin.json`](./openclaw.plugin.json): the hosted MCP server plus the operator skills |
 | Hermes Agent | `hermes skills tap add masheev/skills`; merge [`hermes/config.yaml`](./hermes/config.yaml) into `~/.hermes/config.yaml`, then `hermes mcp login masheev` |
 
 Operator skills need the MCP server connected in the host. Setup per host:
