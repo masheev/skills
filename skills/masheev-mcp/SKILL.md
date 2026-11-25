@@ -39,7 +39,7 @@ password or API key into the chat.
 | Codex | `codex mcp add masheev --url https://api.masheev.com/api/agents/mcp`, then `codex mcp login masheev` |
 | Cursor | Add `{"mcpServers": {"masheev": {"url": "https://api.masheev.com/api/agents/mcp"}}}` to `.cursor/mcp.json` and sign in when prompted |
 | Hermes Agent | `hermes mcp install masheev` once listed in the catalog, or add `mcp_servers.masheev` with `url` and `auth: oauth`, then `hermes mcp login masheev` |
-| OpenClaw | `openclaw plugins install clawhub:@masheev/masheev`, then `openclaw mcp login masheev` |
+| OpenClaw | `openclaw plugins install clawhub:@masheev/openclaw`, then `openclaw mcp login masheev` |
 | Grok | Install the `masheev` plugin in Grok Build, or add a custom connector at grok.com/connectors with the endpoint above |
 | ChatGPT | Settings → Apps → Advanced settings → Developer mode, then create an app with the endpoint above |
 
