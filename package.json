@@ -11,6 +11,7 @@
   },
   "homepage": "https://masheev.com/agents",
   "files": [
+    "index.js",
     "openclaw.plugin.json",
     "README.md",
     "LICENSE",
@@ -18,5 +19,22 @@
     "skills/masheev-reply-with-review",
     "skills/masheev-agent-tuning",
     "skills/masheev-cli"
-  ]
+  ],
+  "peerDependencies": {
+    "openclaw": ">=2026.11.10"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.js"
+    ],
+    "runtimeExtensions": [
+      "./index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.11.10"
+    },
+    "build": {
+      "openclawVersion": "2026.11.10"
+    }
+  }
 }

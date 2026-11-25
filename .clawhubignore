@@ -2,6 +2,7 @@
 # manifest, README, LICENSE and the skills openclaw.plugin.json lists.
 *
 !openclaw.plugin.json
+!index.js
 !README.md
 !LICENSE
 !package.json
